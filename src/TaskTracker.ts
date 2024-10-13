@@ -85,7 +85,10 @@ export default class TaskTracker implements TaskTrackerStore {
     }
 
     public async active(task: TaskItem) {
-        await this.ensureBlockId(task)
+		// only create a block ID if task tracking is enabled
+		if (this.plugin.getSettings().enableTaskTracking) {
+        	await this.ensureBlockId(task)
+		}
         this.store.update((state) => {
             state.task = task
             return state
